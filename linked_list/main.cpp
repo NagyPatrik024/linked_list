@@ -1,5 +1,5 @@
 #include <iostream>
-#include "linked_list.cpp"
+#include "linked_list.h"
 #include <string>
 
 struct Student
