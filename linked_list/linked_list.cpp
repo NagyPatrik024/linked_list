@@ -12,26 +12,8 @@ public:
 	void AddFront(const T& value);
 	void AddBack(const T& value);
 	bool Contains(const T& value) const;
-	bool Search(const std::function<bool(const T&)> predicate) const;
-
-
-	void RemoveFromList(const T& value)
-	{
-		std::shared_ptr<Node<T>> p = mHead;
-		std::shared_ptr<Node<T>> e = nullptr;
-
-		if (Search(value) != nullptr)
-		{
-			if (e == nullptr)
-			{
-				mHead = p->mNext;
-			}
-			else
-			{
-				e->mNext = p->mNext;
-			}
-		}
-	}
+	bool Search(const std::function<bool(const T&)>& predicate) const;
+	void Traverse(const std::function<void(const T&)>& execute) const;
 
 private:
 	template<typename T>
@@ -48,9 +30,19 @@ private:
 	std::shared_ptr<Node<T>> mHead = nullptr;
 };
 
+template<typename T>
+void LinkedList<T>::Traverse(const std::function<void(const T&)>& execute) const
+{
+	auto p = mHead;
+	while (p != nullptr)
+	{
+		execute(p->mValue);
+		p = p->mNext;
+	}
+}
 
 template<typename T>
-bool LinkedList<T>::Search(const std::function<bool(const T&)> predicate) const
+bool LinkedList<T>::Search(const std::function<bool(const T&)>& predicate) const
 {
 	std::shared_ptr<Node<T>> p = mHead;
 	while (p != nullptr && !predicate(p->mValue))
